@@ -1,0 +1,56 @@
+{
+    "run":
+    {                        
+        "dt": 1000,
+        "tsteps": 0,
+        "steps": 200,
+        "max-particles": 12000,
+        "log-frequency": 1,
+        "log-coordinates": true,
+        "log-concentrations": true,
+
+        "probability-mode": {"enabled": false, "product": "", "limit": 0}
+    },
+
+    "medium":
+    {
+        "density":     1.0,    
+        "viscosity":   1.0E-3,  
+        "temperature": 310.0  
+    },
+
+    "geometry": 
+    {
+        "width":  {"size": 200.0, "div": 10, "periodic": true}, 
+        "depth":  {"size": 200.0, "div": 10, "periodic": true}, 
+        "height": {"size": 200.0, "div": 10, "periodic": true}  
+    },
+
+    "micelle":
+    {
+        "density":     1.0,  
+        "viscosity":   7.47E-3,
+        "position": "center",
+        "geometry": {"shape": "ball", "r": 1.0}
+    },
+  
+    "particle-types":
+    [
+        {"type": "O2",       "r": 0.75,  "micelle-bound": false, "medium-bound": false, "fixed-concentration": false,  "final-product": false},
+        {"type": "rO2*",     "r": 10.0,  "micelle-bound": false, "medium-bound": false, "fixed-concentration": false,  "final-product": false}
+    ],
+
+    "interactions":
+    [
+    ],
+
+    "reactions":
+    [                                                                                                                                         
+    ],
+
+    "particles": 
+    [
+        {"type": "O2",  "position": "center",  "amount": 100},
+        {"type": "rO2*",  "position": "center",  "amount": 100}
+    ]
+}

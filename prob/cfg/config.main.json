@@ -1,0 +1,98 @@
+{
+    "run":
+    {                        
+        "dt": 1000,
+        "tsteps": 100,
+        "steps": 1000000,
+        "max-particles": 12000,
+        "log-frequency": 1,
+        "log-coordinates": false,
+        "log-concentrations": true,
+        "log-collisions": true,
+        "log-reactions": true,
+
+        "probability-mode": {"enabled": false, "product": "", "limit": 0}
+    },
+
+    "medium":
+    {
+        "density":     1.0,    
+        "viscosity":   1.0E-3,  
+        "temperature": 310.0  
+    },
+
+    "geometry": 
+    {
+        "width":  {"size": 200.0, "div": 8, "periodic": true}, 
+        "depth":  {"size": 200.0, "div": 8, "periodic": true}, 
+        "height": {"size": 200.0, "div": 8, "periodic": true}  
+    },
+
+    "micelle":
+    {
+        "density":     1.0,  
+        "viscosity":   7.47E-3,
+        "position": "center",
+        "geometry": {"shape": "ball", "r": 23.0}
+    },
+  
+    "particle-types":
+    [
+        {"type": "O2",       "r": 0.75, "micelle-bound": false, "medium-bound": false, "fixed-concentration": true,   "final-product": false},
+        {"type": "HO2*",     "r": 0.8,  "micelle-bound": false, "medium-bound": false, "fixed-concentration": false,  "final-product": false},
+        {"type": "H2O2",     "r": 0.95, "micelle-bound": false, "medium-bound": false, "fixed-concentration": false,  "final-product": true}, 
+
+        {"type": "rO2H",     "r": 3.0, "micelle-bound": false, "medium-bound": false, "fixed-concentration": false,  "final-product": true},
+        {"type": "rO2*",     "r": 3.0, "micelle-bound": false, "medium-bound": false, "fixed-concentration": true,   "final-product": false}, 
+
+        {"type": "NO*",      "r": 5.0,  "micelle-bound": true, "medium-bound": false, "fixed-concentration": false,  "final-product": false},
+        {"type": "NOH",      "r": 0.95, "micelle-bound": false, "medium-bound": false, "fixed-concentration": false,  "final-product": false},
+
+        {"type": "LO4L",     "r": 24.0, "micelle-bound": true,  "medium-bound": false, "fixed-concentration": false,  "final-product": true},
+        {"type": "LH",       "r": 12.0, "micelle-bound": true,  "medium-bound": false, "fixed-concentration": false,  "final-product": false},
+        {"type": "LO2H",     "r": 12.0, "micelle-bound": true,  "medium-bound": false, "fixed-concentration": false,  "final-product": true},
+        {"type": "L_H",      "r": 12.0, "micelle-bound": true,  "medium-bound": false, "fixed-concentration": false,  "final-product": true},
+        {"type": "L*",       "r": 12.0, "micelle-bound": true,  "medium-bound": false, "fixed-concentration": false,  "final-product": false},
+        {"type": "LO2*",     "r": 12.0, "micelle-bound": true,  "medium-bound": false, "fixed-concentration": false,  "final-product": false},
+        {"type": "LNO",      "r": 12.0, "micelle-bound": true,  "medium-bound": false, "fixed-concentration": false,  "final-product": true}
+    ],
+
+    "interactions":
+    [
+        {"name": "HO2* + HO2*",          "particles": ["HO2*", "HO2*"],         "type": "LJ", "params": [0.07, 2.7], "cutoff": 10.0}, 
+        {"name": "NO* + HO2*",           "particles": ["NO*", "HO2*"],          "type": "LJ", "params": [0.07, 2.7], "cutoff": 10.0}, 
+        {"name": "NOH + HO2*",           "particles": ["NOH", "HO2*"],          "type": "LJ", "params": [0.07, 2.7], "cutoff": 10.0}, 
+        {"name": "rO2* + LH",            "particles": ["rO2*", "LH"],           "type": "LJ", "params": [0.07, 2.7], "cutoff": 10.0}, 
+        {"name": "L* + O2",              "particles": ["L*",   "O2"],           "type": "LJ", "params": [0.07, 2.7], "cutoff": 10.0}, 
+        {"name": "LO2* + LH",            "particles": ["LO2*", "LH"],           "type": "LJ", "params": [0.07, 2.7], "cutoff": 10.0}, 
+        {"name": "HO2* + LH",            "particles": ["HO2*", "LH"],           "type": "LJ", "params": [0.07, 2.7], "cutoff": 10.0}, 
+        {"name": "LO2* + LO2*",          "particles": ["LO2*", "LO2*"],         "type": "LJ", "params": [0.07, 2.7], "cutoff": 10.0}, 
+        {"name": "LO2* + NOH",           "particles": ["LO2*", "NOH"],          "type": "LJ", "params": [0.07, 2.7], "cutoff": 10.0}, 
+        {"name": "LO2* + NO*",           "particles": ["LO2*", "NO*"],          "type": "LJ", "params": [0.07, 2.7], "cutoff": 10.0}, 
+        {"name": "L* + NO*",             "particles": ["L*", "NO*"],            "type": "LJ", "params": [0.07, 2.7], "cutoff": 10.0}
+    ],
+
+    "reactions":
+    [                                                                                                                                         
+        {"id": "13_LO2_HO2_L_H", "name": "LO2* => HO2* + L_H",           "phase": "micelle",  "k": 30.0,           "reactants": ["LO2*"],            "products": ["HO2*", "L_H"],        "energy": 0.0, "probability": 0.0000003},
+        {"id": "10_LO2_LO2",     "name": "LO2* + LO2* => LO4L",          "phase": "micelle",  "k": 405.0,          "reactants": ["LO2*", "LO2*"],    "products": ["LO4L"],               "energy": 0.0, "probability": 0.000016,  "cutoff": 2.0}, 
+        {"id": "08_LO2_LH",      "name": "LO2* + LH => LO2H + L*",       "phase": "micelle",  "k": 446.0,          "reactants": ["LO2*", "LH"],      "products": ["LO2H", "L*"],         "energy": 0.0, "probability": 0.000025,  "cutoff": 2.0}, 
+        {"id": "14_L_NO",        "name": "L* + NO* => LNO",              "phase": "micelle",  "k": 15027.0,        "reactants": ["L*", "NO*"],       "products": ["LNO"],                "energy": 0.0, "probability": 0.00065,  "cutoff": 2.0},
+        {"id": "12_LO2_NO",      "name": "LO2* + NO* => NOH + O2 + L_H", "phase": "micelle",  "k": 50939.0,        "reactants": ["LO2*", "NO*"],     "products": ["NOH", "O2", "L_H"],   "energy": 0.0, "probability": 0.00071,  "cutoff": 3.0}, 
+        {"id": "06_rO2_LH",      "name": "rO2* + LH => L* + rO2H",       "phase": "micelle",  "k": 60000.0,        "reactants": ["rO2*", "LH"],      "products": ["L*", "rO2H"],         "energy": 0.0, "probability": 0.00090,  "cutoff": 3.0}, 
+        {"id": "11_LO2_NOH",     "name": "LO2* + NOH => NO* + LO2H",     "phase": "micelle",  "k": 1420000.0,      "reactants": ["LO2*", "NOH"],     "products": ["NO*", "LO2H"],        "energy": 0.0, "probability": 0.00254,  "cutoff": 6.0}, 
+        {"id": "05_NOH_HO2",     "name": "NOH + HO2* => NO* + H2O2",     "phase": "medium",   "k": 2080000.0,      "reactants": ["NOH", "HO2*"],     "products": ["NO*", "H2O2"],        "energy": 0.0, "probability": 0.0046,    "cutoff": 6.0},
+        {"id": "09_HO2_LH",      "name": "HO2* + LH => L* + H2O2",       "phase": "micelle",  "k": 4550000.0,      "reactants": ["HO2*", "LH"],      "products": ["L*", "H2O2"],         "energy": 0.0, "probability": 0.02,     "cutoff": 6.0}, 
+        {"id": "03_HO2_HO2",     "name": "HO2* + HO2* => H2O2 + O2",     "phase": "medium",   "k": 100000000.0,    "reactants": ["HO2*", "HO2*"],    "products": ["H2O2", "O2"],         "energy": 0.0, "probability": 0.05,      "cutoff": 9.0},
+        {"id": "04_NO_HO2",      "name": "NO* + HO2* => NOH + O2",       "phase": "medium",   "k": 230000000.0,    "reactants": ["NO*", "HO2*"],     "products": ["NOH", "O2"],          "energy": 0.0, "probability": 0.12845,  "cutoff": 9.0},
+        {"id": "07_L_O2",        "name": "L* + O2 => LO2*",              "phase": "micelle",  "k": 10000000000.0,  "reactants": ["L*",   "O2"],      "products": ["LO2*"],               "energy": 0.0, "probability": 1.0,      "cutoff": 15.0}
+    ],
+
+    "particles": 
+    [
+        {"type": "LH",    "position": "random_micelle",  "amount": 100},
+        {"type": "rO2*",  "position": "random_medium",   "amount": 20},
+        {"type": "O2",    "position": "random_medium",   "amount": 10},
+        {"type": "NO*",   "position": "random_medium",   "amount": 0}
+    ]
+}
